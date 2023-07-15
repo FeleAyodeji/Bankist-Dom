@@ -39,16 +39,6 @@ document.addEventListener('keydown', function (e) {
 
 btnScrollTo.addEventListener('click', function (e) {
   const s1coords = section1.getBoundingClientRect(); // getting the cordinates of the element er are scrolling to
-  /* console.log(s1coords);
-
-  console.log(e.target.getBoundingClientRect());
-  console.log('current scroll (X/Y)', window.pageXOffset, pageYOffset);
-
-  console.log(
-    'height/width viewport',
-    document.documentElement.clientHeight,
-    document.documentElement.clientWidth
-  ); */
   section1.scrollIntoView({ behaviour: 'smooth' });
 });
 
@@ -56,7 +46,7 @@ btnScrollTo.addEventListener('click', function (e) {
 
 //Page navigation
 
-// by using foreach on the nav buttons to navigate, this procedure isnt 100 accurate
+//By using foreach on the nav buttons to navigate, this procedure isnt 100 accurate
 
 /* document.querySelectorAll('nav__link').forEach(function (el) {
   el.addEventListener('clcik', function (e) {
@@ -67,14 +57,14 @@ btnScrollTo.addEventListener('click', function (e) {
 }); */
 
 //By using event delegation
-
 //1. add event listener to common parent element
 //2. determine what element originated the event
 
 document.querySelector('.nav__links').addEventListener('click', function (e) {
   e.preventDefault();
 
-  //matching strategy
+  //matching strategy : the aim of this code is to ignore clicks that  do not happen on one of the nav links and also navigate after hitting the nav link.
+
   if (e.target.classList.contains('nav__link')) {
     const id = e.target.getAttribute('href');
     document.querySelector(id).scrollIntoView({
