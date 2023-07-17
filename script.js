@@ -9,6 +9,7 @@ const section1 = document.querySelector('#section--1');
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
+const nav = document.querySelector('.nav');
 
 ///////////////////////////////////////
 
@@ -37,7 +38,7 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 //scrolling
 
 btnScrollTo.addEventListener('click', function (e) {
@@ -79,7 +80,7 @@ document
       });
     }
   });
-
+/////////////////////////////////////////////////////////////////////////////////////
 //Tabbed Component
 
 tabsContainer.addEventListener('click', function (event) {
@@ -107,3 +108,28 @@ tabsContainer.addEventListener('click', function (event) {
   );
   clickedTabContent.classList.add('operations__content--active');
 });
+
+//////////////////////////////////////////////////////////////////////////////////
+//Menu fade animation
+
+const handleHover = function (opacity) {
+  return function (event) {
+    // Check if the hovered element has the "nav__link" class
+    if (event.target.classList.contains('nav__link')) {
+      const link = event.target;
+      const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+      const logo = link.closest('.nav').querySelector('img');
+      // Set opacity for sibling links
+      siblings.forEach(el => {
+        if (el !== link) {
+          el.style.opacity = opacity;
+        }
+      });
+      // Set opacity for the logo
+      logo.style.opacity = opacity;
+    }
+  };
+};
+// Add event listeners for mouseover and mouseout events, with different opacity values
+nav.addEventListener('mouseover', handleHover(0.5));
+nav.addEventListener('mouseout', handleHover(1));
