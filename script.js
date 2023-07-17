@@ -6,6 +6,9 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
 
 ///////////////////////////////////////
 
@@ -60,15 +63,47 @@ btnScrollTo.addEventListener('click', function (e) {
 //1. add event listener to common parent element
 //2. determine what element originated the event
 
-document.querySelector('.nav__links').addEventListener('click', function (e) {
-  e.preventDefault();
+document
+  .querySelector('.nav__links')
+  .addEventListener('click', function (event) {
+    event.preventDefault();
 
-  //matching strategy : the aim of this code is to ignore clicks that  do not happen on one of the nav links and also navigate after hitting the nav link.
+    // Matching strategy: Ignore clicks that do not happen on one of the nav links and navigate after hitting the nav link.
+    if (event.target.classList.contains('nav__link')) {
+      const targetId = event.target.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
 
-  if (e.target.classList.contains('nav__link')) {
-    const id = e.target.getAttribute('href');
-    document.querySelector(id).scrollIntoView({
-      behaviour: 'smooth',
-    }); //The scrollIntoView() method is a built-in JavaScript function that scrolls the element into the visible area of the browser window. It can be used to automatically scroll to a specific element on a web page.
+      // Scroll to the target element smoothly
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  });
+
+//Tabbed Component
+
+tabsContainer.addEventListener('click', function (event) {
+  const clickedTab = event.target.closest('.operations__tab');
+
+  // Guard clause if no tab is clicked
+  if (!clickedTab) {
+    return;
   }
+
+  // Remove active classes from all tabs
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+
+  // Remove active classes from all content areas
+  tabsContent.forEach(content =>
+    content.classList.remove('operations__content--active')
+  );
+
+  // Activate the clicked tab
+  clickedTab.classList.add('operations__tab--active');
+
+  // Activate the corresponding content area
+  const clickedTabContent = document.querySelector(
+    `.operations__content--${clickedTab.dataset.tab}` // Access the value of the "tab" data attribute
+  );
+  clickedTabContent.classList.add('operations__content--active');
 });
