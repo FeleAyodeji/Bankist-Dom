@@ -133,3 +133,49 @@ const handleHover = function (opacity) {
 // Add event listeners for mouseover and mouseout events, with different opacity values
 nav.addEventListener('mouseover', handleHover(0.5));
 nav.addEventListener('mouseout', handleHover(1));
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//Sticky Navigation
+
+const initialCoords = section1.getBoundingClientRect();
+
+// Handle scroll event
+const handleScroll = () => {
+  const scrollY = window.scrollY;
+  // Check if the scroll position is below the initial position of section1
+  if (scrollY > initialCoords.top) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+};
+// Add scroll event listener
+window.addEventListener('scroll', handleScroll);
+
+//sticky navigation: using Intersection observer API
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect();
+
+// Callback function for Intersection Observer
+const stickyNav = function (entries) {
+  const [entry] = entries;
+
+  // If the header is not intersecting with the viewport, add the 'sticky' class to the navigation
+  if (!entry.isIntersecting) {
+    nav.classList.add('sticky');
+  } else {
+    // If the header is intersecting with the viewport, remove the 'sticky' class from the navigation
+    nav.classList.remove('sticky');
+  }
+};
+
+// Create a new Intersection Observer instance
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: '-90px', // Sets a margin of -90px for the root (viewport) bounding box
+});
+
+// Start observing the header element
+headerObserver.observe(header);
