@@ -175,7 +175,7 @@ const stickyNav = function (entries) {
 const headerObserver = new IntersectionObserver(stickyNav, {
   root: null,
   threshold: 0,
-  rootMargin: `${navHeight}`, // Sets a margin of -90px for the root (viewport) bounding box
+  rootMargin: `${navHeight}px`, // Sets a margin of -90px for the root (viewport) bounding box
 });
 
 // Start observing the header element
@@ -246,3 +246,43 @@ const imgObserver = new IntersectionObserver(loading, {
 
 // Observe each image target
 imgTargets.forEach(img => imgObserver.observe(img));
+
+//////////////////////////////////////////////////////////////////////////////////
+
+//implementing slider component
+const slides = document.querySelectorAll('.slide');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+
+let currentSlide = 0;
+const maxSlide = slides.length;
+
+// Function to move to a specific slide
+const goToSlide = function (slide) {
+  slides.forEach(
+    (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+  );
+};
+
+// Initialize the slider with the first slide
+goToSlide(0);
+
+// Function to move to the next slide
+const nextSlide = function () {
+  // If it's the last slide, move to the first slide (looping behavior)
+  currentSlide = (currentSlide + 1) % maxSlide;
+  goToSlide(currentSlide);
+};
+
+// Function to move to the previous slide
+const prevSlide = function () {
+  // If it's the first slide, move to the last slide (looping behavior)
+  currentSlide = (currentSlide - 1 + maxSlide) % maxSlide;
+  goToSlide(currentSlide);
+};
+
+// Listen for a click on the "Next" button and move to the next slide
+btnRight.addEventListener('click', nextSlide);
+
+// Listen for a click on the "Previous" button and move to the previous slide
+btnLeft.addEventListener('click', prevSlide);
