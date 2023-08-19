@@ -227,9 +227,11 @@ const loading = function (entries, observer) {
   }
 
   // Replace the src attribute with the data-src attribute to load the image
+
   entry.target.src = entry.target.dataset.src;
 
   // Listen for the 'load' event to remove the 'lazy-img' class after the image has loaded
+
   entry.target.addEventListener('load', function () {
     entry.target.classList.remove('lazy-img');
   });
